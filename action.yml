@@ -49,7 +49,7 @@ runs:
         comment-id: ${{ steps.comment.outputs.comment-id }}
         issue-number: ${{ github.event.pull_request.number }}
         body: |
-          ## PR preview in Swarm
+          ## 🐝 PR preview in Swarm
 
           **Preview URL:** ${{ steps.upload.outputs.preview-url }}
           **Swarm Hash:** `${{ swarm-hash }}`
