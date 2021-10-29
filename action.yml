@@ -21,6 +21,7 @@ runs:
         node-version: 16
 
     - run: npm i @ethersphere/swarm-cli -g
+      shell: bash
 
     - id: upload
       name: Upload to Swarm
