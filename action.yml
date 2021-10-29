@@ -20,7 +20,7 @@ runs:
       with:
         node-version: 16
 
-    - run: npm i @ethersphere/swarm-cli -g
+    - run: npm install -g cids @ethersphere/swarm-cli
       shell: bash
 
     - id: upload
@@ -28,7 +28,8 @@ runs:
       shell: bash
       run: |
         HASH=$(swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
-        echo "::set-output name=preview-url::${{ inputs.bee-url }}/bzz/$HASH"
+        CID=$(${{ github.action_path }}/convert-to-cid.js $HASH)
+        echo "::set-output name=preview-url::https://$CID.bzz.link"
         echo "::set-output name=git-hash::$(git log -1 --skip=1  --pretty=%H | tr -d '\n')"
         echo "::set-output name=git-message::$(git log -1 --skip=1  --pretty=%B | tr -d '\n')"
         echo "::set-output name=git-branch::${GITHUB_REF#refs/heads/}"
