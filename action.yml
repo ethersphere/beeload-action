@@ -20,7 +20,7 @@ runs:
       with:
         node-version: 16
 
-    - run: npm install -g @ethersphere/swarm-cli && npm install cids
+    - run: npm install -g @ethersphere/swarm-cli && cd ${{ github.action_path }} && npm install cids
       shell: bash
 
     - id: upload
