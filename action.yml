@@ -1,0 +1,55 @@
+name: 'Previews on Swarm network'
+description: 'Upload your build site to Swarm network and create comment on your PR with the URL to the site.'
+inputs:
+  bee-url:
+    description: 'URL of Bee node'
+    required: true
+  postage-batch-id:
+    description: 'Batch ID of Postage Stamp that will be used for upload'
+    required: true
+  dir:
+    description: 'Path to build directory that should be uploaded. Default: ./build'
+    default: './build'
+  token:
+    description: 'Token to be used for creating the PR comment. Default: GITHUB_TOKEN'
+    default: ${{ github.token }}
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 16
+
+    - run: npm i @ethersphere/swarm-cli -g
+
+    - id: upload
+      name: Upload to Swarm
+      shell: bash
+      run: |
+        HASH=$(swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
+        echo "::set-output name=preview-url::${{ inputs.bee-url }}/bzz/$HASH"
+        echo "::set-output name=git-hash::$(git log -1 --skip=1  --pretty=%H | tr -d '\n')"
+        echo "::set-output name=git-message::$(git log -1 --skip=1  --pretty=%B | tr -d '\n')"
+        echo "::set-output name=git-branch::${GITHUB_REF#refs/heads/}"
+
+    - name: Find preview comment
+      uses: peter-evans/find-comment@v1
+      id: comment
+      with:
+        token: ${{ inputs.token }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body-includes: PR preview in Swarm
+
+    - name: Create or update preview comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{ steps.comment.outputs.comment-id }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          ## PR preview in Swarm
+
+          **Preview URL:** ${{ steps.upload.outputs.preview-url }}
+          **Commit Hash:** ${{ steps.upload.outputs.git-hash }}
+          **Commit Message:** ${{ steps.upload.outputs.git-message }}
+          **Branch:** ${{ steps.upload.outputs.git-branch }}
+        edit-mode: replace
