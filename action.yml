@@ -9,10 +9,19 @@ inputs:
     required: true
   dir:
     description: 'Path to build directory that should be uploaded. Default: ./build'
+    required: false
     default: './build'
   token:
     description: 'Token to be used for creating the PR comment. Default: GITHUB_TOKEN'
+    required: false
     default: ${{ github.token }}
+outputs:
+  swarm-hash:
+    description: 'Swarm hash of the uploaded content'
+    value: ${{ steps.upload.outputs.swarm-hash }}
+  url:
+    description: 'Preview URL'
+    value: ${{ steps.upload.outputs.preview-url }}
 runs:
   using: "composite"
   steps:
@@ -52,7 +61,7 @@ runs:
           ## 🐝 PR preview in Swarm
 
           **Preview URL:** ${{ steps.upload.outputs.preview-url }}
-          **Swarm Hash:** `${{ swarm-hash }}`
+          **Swarm Hash:** `${{ steps.upload.outputs.swarm-hash }}`
           **Commit Hash:** ${{ steps.upload.outputs.git-hash }}
           **Commit Message:** ${{ steps.upload.outputs.git-message }}
         edit-mode: replace
