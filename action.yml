@@ -1,5 +1,8 @@
-name: 'Previews on Swarm network'
-description: 'Upload your build site to Swarm network and create comment on your PR with the URL to the site.'
+name: 'Bee-load to Swarm network'
+description: 'Toolkit to uploading data to Swarm network with GitHub Actions'
+branding:
+  icon: upload-cloud
+  color: orange
 inputs:
   bee-url:
     description: 'URL of Bee node'
@@ -11,6 +14,10 @@ inputs:
     description: 'Path to build directory that should be uploaded. Default: ./build'
     required: false
     default: './build'
+  preview:
+    description: 'Specifies if PR preview comment should be created for PR branches. Default: false'
+    required: false
+    default: 'false'
   token:
     description: 'Token to be used for creating the PR comment. Default: GITHUB_TOKEN'
     required: false
@@ -42,8 +49,11 @@ runs:
         echo "::set-output name=preview-url::https://$CID.bzz.link"
         echo "::set-output name=git-hash::$(git log -1 --skip=1  --pretty=%H | tr -d '\n')"
         echo "::set-output name=git-message::$(git log -1 --skip=1  --pretty=%B | tr -d '\n')"
+        echo "Hash: $HASH"
+        echo "Preview URL: https://$CID.bzz.link"
 
     - name: Find preview comment
+      if: inputs.preview == 'true' && github.event.pull_request.number
       uses: peter-evans/find-comment@v1
       id: comment
       with:
@@ -52,6 +62,7 @@ runs:
         body-includes: PR preview in Swarm
 
     - name: Create or update preview comment
+      if: inputs.preview == 'true && github.event.pull_request.number
       uses: peter-evans/create-or-update-comment@v1
       with:
         token: ${{ inputs.token }}
