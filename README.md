@@ -1,4 +1,4 @@
-# Bee-load Action
+# Beeload Action
 
 [![](https://img.shields.io/badge/made%20by-Swarm-blue.svg?style=flat-square)](https://swarm.ethereum.org/)
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
@@ -51,7 +51,7 @@ jobs:
       # Upload the build folder to Swarm
       - name: Create preview
         id: upload
-        uses: ethersphere/bee-load-action@master
+        uses: ethersphere/beeload-action@master
         with:
           bee-url: https://bee-9.gateway.ethswarm.org # We are using Gateway node that allows small sized files/sites to be uploaded
           postage-batch-id: '0000000000000000000000000000000000000000000000000000000000000000' # Postage Stamps are replaced on Gateway, so we are using dummy string to pass input validations
@@ -98,7 +98,7 @@ jobs:
 
       # Upload the build folder to Swarm
       - name: Create preview
-        uses: ethersphere/bee-load-action@master
+        uses: ethersphere/beeload-action@master
         with:
           bee-url: https://bee-9.gateway.ethswarm.org # We are using Gateway node that allows small sized files/sites to be uploaded
           postage-batch-id: '0000000000000000000000000000000000000000000000000000000000000000' # Postage Stamps are replaced on Gateway, so we are using dummy string to pass input validations
@@ -122,13 +122,13 @@ jobs:
 | Name | Description |
 | --- | --- |
 | `swarm-hash` | Swarm hash of the uploaded content |
-| `preview-url` | Preview URL |
+| `url` | Bzz Link URL |
 
 ## Contribute
 
 There are some ways you can make this module better:
 
-- Consult our [open issues](https://github.com/ethersphere/bee-load-action/issues) and take on one of them
+- Consult our [open issues](https://github.com/ethersphere/beeload-action/issues) and take on one of them
 - Help our tests reach 100% coverage!
 - Join us in our [Discord chat](https://discord.gg/wdghaQsGq5) in the #develop-on-swarm channel if you have questions or want to give feedback
 

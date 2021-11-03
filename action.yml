@@ -1,4 +1,4 @@
-name: 'Bee-load to Swarm network'
+name: 'Beeload to Swarm network'
 description: 'Toolkit to uploading data to Swarm network with GitHub Actions'
 branding:
   icon: upload-cloud
@@ -27,8 +27,8 @@ outputs:
     description: 'Swarm hash of the uploaded content'
     value: ${{ steps.upload.outputs.swarm-hash }}
   url:
-    description: 'Preview URL'
-    value: ${{ steps.upload.outputs.preview-url }}
+    description: 'Bzz link URL'
+    value: ${{ steps.upload.outputs.bzz-link }}
 runs:
   using: "composite"
   steps:
@@ -46,14 +46,14 @@ runs:
         HASH=$(swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
         CID=$(${{ github.action_path }}/convert-to-cid.js $HASH)
         echo "::set-output name=swarm-hash::$HASH"
-        echo "::set-output name=preview-url::https://$CID.bzz.link"
+        echo "::set-output name=bzz-link::https://$CID.bzz.link"
         echo "::set-output name=git-hash::$(git log -1 --skip=1  --pretty=%H | tr -d '\n')"
         echo "::set-output name=git-message::$(git log -1 --skip=1  --pretty=%B | tr -d '\n')"
-        echo "Hash: $HASH"
-        echo "Preview URL: https://$CID.bzz.link"
+        echo "Swarm Hash: $HASH"
+        echo "Bzz link URL: https://$CID.bzz.link"
 
     - name: Find preview comment
-      if: inputs.preview == 'true' && github.event.pull_request.number
+#      if: inputs.preview == 'true' && github.event.pull_request.number
       uses: peter-evans/find-comment@v1
       id: comment
       with:
@@ -62,7 +62,7 @@ runs:
         body-includes: PR preview in Swarm
 
     - name: Create or update preview comment
-      if: inputs.preview == 'true && github.event.pull_request.number
+#      if: inputs.preview == 'true && github.event.pull_request.number
       uses: peter-evans/create-or-update-comment@v1
       with:
         token: ${{ inputs.token }}
