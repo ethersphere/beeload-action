@@ -53,7 +53,7 @@ runs:
         echo "Bzz link URL: https://$CID.bzz.link"
 
     - name: Find preview comment
-#      if: inputs.preview == 'true' && github.event.pull_request.number
+      if: inputs.preview == 'true' && github.event.pull_request.number
       uses: peter-evans/find-comment@v1
       id: comment
       with:
@@ -62,7 +62,7 @@ runs:
         body-includes: PR preview in Swarm
 
     - name: Create or update preview comment
-#      if: inputs.preview == 'true && github.event.pull_request.number
+      if: inputs.preview == 'true' && github.event.pull_request.number
       uses: peter-evans/create-or-update-comment@v1
       with:
         token: ${{ inputs.token }}
