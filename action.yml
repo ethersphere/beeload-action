@@ -43,7 +43,7 @@ runs:
       name: Upload to Swarm
       shell: bash
       run: |
-        HASH=$(npx swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
+        HASH=$(${{ github.action_path }}/node_modules/.bin/swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
         CID=$(${{ github.action_path }}/convert-to-cid.js $HASH)
         echo "::set-output name=swarm-hash::$HASH"
         echo "::set-output name=bzz-link::https://$CID.bzz.link"
