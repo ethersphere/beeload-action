@@ -36,14 +36,14 @@ runs:
       with:
         node-version: 16
 
-    - run: npm install -g @ethersphere/swarm-cli && cd ${{ github.action_path }} && npm install cids
+    - run: cd ${{ github.action_path }} && npm ci
       shell: bash
 
     - id: upload
       name: Upload to Swarm
       shell: bash
       run: |
-        HASH=$(swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
+        HASH=$(npx swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
         CID=$(${{ github.action_path }}/convert-to-cid.js $HASH)
         echo "::set-output name=swarm-hash::$HASH"
         echo "::set-output name=bzz-link::https://$CID.bzz.link"
@@ -71,7 +71,7 @@ runs:
         body: |
           ## 🐝 PR preview in Swarm
 
-          **Preview URL:** ${{ steps.upload.outputs.preview-url }}
+          **Preview URL:** ${{ steps.upload.outputs.bzz-link }}
           **Swarm Hash:** `${{ steps.upload.outputs.swarm-hash }}`
           **Commit Hash:** ${{ steps.upload.outputs.git-hash }}
           **Commit Message:** ${{ steps.upload.outputs.git-message }}
