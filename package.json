@@ -5,7 +5,7 @@
   "description": "",
   "main": "convert-to-cid.js",
   "dependencies": {
-    "@ethersphere/swarm-cli": "^1.6.0",
+    "@ethersphere/swarm-cli": "^1.7.0",
     "cids": "^1.1.9"
   },
   "scripts": {
