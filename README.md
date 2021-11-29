@@ -112,6 +112,7 @@ jobs:
 | Name | Description | Default |
 | --- | --- | --- |
 | `bee-url` | URL of Bee API of your Bee node | |
+| `bzz-link-url` | URL of Bzz.link. It has to contain `<<CID>>` string, which will be replaced with the CID of the content | `https://<<CID>>.bzz.link` |
 | `postage-batch-id` | Batch ID of Postage Stamp that will be used for upload | |
 | `dir` | Folder that contains the built webpage | `./build` |
 | `token` | Token to be used for creating of the PR Preview comment. | `GITHUB_TOKEN` |
@@ -122,7 +123,7 @@ jobs:
 | Name | Description |
 | --- | --- |
 | `swarm-hash` | Swarm hash of the uploaded content |
-| `url` | Bzz Link URL |
+| `bzz-link` | Bzz Link URL |
 
 ## Contribute
 

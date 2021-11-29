@@ -7,6 +7,10 @@ inputs:
   bee-url:
     description: 'URL of Bee node'
     required: true
+  bzz-link-url:
+    description: 'URL of for Bzz.link'
+    required: false
+    default: 'https://<<CID>>.bzz.link'
   postage-batch-id:
     description: 'Batch ID of Postage Stamp that will be used for upload'
     required: true
@@ -45,12 +49,14 @@ runs:
       run: |
         HASH=$(${{ github.action_path }}/node_modules/.bin/swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
         CID=$(${{ github.action_path }}/convert-to-cid.js $HASH)
+        BZZ_LINK_BASE_URL="${{ inputs.bzz-link-url }}"
+        BZZ_LINK_URL=${BZZ_LINK_BASE_URL/<<CID>>/$CID}
         echo "::set-output name=swarm-hash::$HASH"
-        echo "::set-output name=bzz-link::https://$CID.bzz.link"
+        echo "::set-output name=bzz-link::$BZZ_LINK_URL"
         echo "::set-output name=git-hash::$(git log -1 --skip=1  --pretty=%H | tr -d '\n')"
         echo "::set-output name=git-message::$(git log -1 --skip=1  --pretty=%B | tr -d '\n')"
         echo "Swarm Hash: $HASH"
-        echo "Bzz link URL: https://$CID.bzz.link"
+        echo "Bzz link URL: $BZZ_LINK_URL"
 
     - name: Find preview comment
       if: inputs.preview == 'true' && github.event.pull_request.number
