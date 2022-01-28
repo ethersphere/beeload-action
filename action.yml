@@ -28,6 +28,9 @@ inputs:
     description: 'Token to be used for creating the PR comment. Default: GITHUB_TOKEN'
     required: false
     default: ${{ github.token }}
+  extra-params:
+    description: 'Extra parameters passed to Swarm CLI calls'
+    required: false
 outputs:
   swarm-hash:
     description: 'Swarm hash of the uploaded content'
@@ -49,7 +52,7 @@ runs:
       name: Upload to Swarm
       shell: bash
       run: |
-        HASH=$(${{ github.action_path }}/node_modules/.bin/swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }})
+        HASH=$(${{ github.action_path }}/node_modules/.bin/swarm-cli upload ${{ inputs.dir }} --bee-api-url ${{ inputs.bee-url }} --quiet --stamp ${{ inputs.postage-batch-id }} ${{ inputs.extra-params }})
         CID=$(${{ github.action_path }}/convert-to-cid.js $HASH)
         BZZ_LINK_BASE_URL="${{ inputs.bzz-link-url }}"
         BZZ_LINK_URL=${BZZ_LINK_BASE_URL/<<CID>>/$CID}
