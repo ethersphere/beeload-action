@@ -117,6 +117,7 @@ jobs:
 | `dir` | Folder that contains the built webpage | `./build` |
 | `token` | Token to be used for creating of the PR Preview comment. | `GITHUB_TOKEN` |
 | `preview` | Flag that enables creating PR Preview comment. | `false` |
+| `extra-params` | Extra parameters that you will be passed to [swarm-cli](https://github.com/ethersphere/swarm-cli) calls. | |
 
 ## Action outputs
 
