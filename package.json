@@ -6,7 +6,7 @@
   "main": "convert-to-cid.js",
   "dependencies": {
     "@ethersphere/swarm-cid": "^0.1.0",
-    "@ethersphere/swarm-cli": "^1.9.0"
+    "@ethersphere/swarm-cli": "^1.10.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
