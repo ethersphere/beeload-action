@@ -62,6 +62,7 @@ runs:
         echo "::set-output name=git-message::$(git log -1 --skip=1  --pretty=%B | tr -d '\n')"
         echo "Swarm Hash: $HASH"
         echo "Bzz link URL: $BZZ_LINK_URL"
+        echo "::warning title=⚠️ Beeload is depraceted::Beeload action is depracated in favor of Swarm Actions: https://github.com/ethersphere/swarm-actions"
 
     - name: Find preview comment
       if: inputs.preview == 'true' && github.event.pull_request.number

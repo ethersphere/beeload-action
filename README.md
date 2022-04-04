@@ -1,4 +1,6 @@
-# Beeload Action
+# Beeload Action (deprecated) 
+
+### ⚠️ Beeload action is deprecated in favor of more flexible set of actions [Swarm Actions](https://github.com/ethersphere/swarm-actions).
 
 [![](https://img.shields.io/badge/made%20by-Swarm-blue.svg?style=flat-square)](https://swarm.ethereum.org/)
 [![standard-readme compliant](https://img.shields.io/badge/standard--readme-OK-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
